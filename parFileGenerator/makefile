@@ -11,7 +11,7 @@ basedats:
 	@echo $(basename $(DAT))
 
 parfiles: $(DAT)
-	cp $(DAT) $(PAR_DIR)
+	cd $(PAR_DIR); python3 generate_par_file.py $(DAT)
 
 .PHONY : clean
 clean: 
