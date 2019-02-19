@@ -3,22 +3,28 @@
 
 # Imports
 import sys
+import re
+import os
 
 class ParGenerator:
 
     def __init__(self, filename_in_dat):
 
         self.filename_in_dat = filename_in_dat
+        self.filename_base = self.get_basename()
+        self.filename_par = self.filename_base + '.par'
+        self.filename_out_dat = re.sub('_in','_out',self.filename_in_dat)
 
     def get_basename(self):
+        strip_path = os.path.basename(self.filename_in_dat)
+        strip_base = re.sub('_in\.dat$','',strip_path)
+        return strip_base
 
-        pass
+    def write_par_file(self):
 
-    def write_par_file(self, filename_par):
-
-        with open(filename_par, 'w') as f_object:
-            f_object.write('test_in.dat\n')
-            f_object.write('test_out.dat\n')
+        with open(self.filename_par, 'w') as f_object:
+            f_object.write(self.filename_in_dat+'\n')
+            f_object.write(self.filename_out_dat+'\n')
 
         return
 
@@ -30,4 +36,6 @@ if __name__ == '__main__':
         sys.exit('Usage: generate_par_file.py <filename_in_dat>')
 
     filename_in_dat = sys.argv[1]
+    par_generator = ParGenerator(filename_in_dat)
+    par_generator.write_par_file()
 
